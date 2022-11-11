@@ -22,13 +22,62 @@ const center = {
   lat: -3.745,
   lng: -38.523
 };
-let items = [];
 const App =()=>{
- let [idProducts,setIdProducts] = useLocalStorage("idProducts",items)
+	let [idProducts,setIdProducts] = useLocalStorage("idProducts",[])
  const handleAcheter=(e)=>{
-    items.indexOf(e.target.previousElementSibling.value) === -1?items.push(Number(e.target.previousElementSibling.value)):console.log("already exist !")
-    setIdProducts([...items,(Number(e.target.previousElementSibling.value))])
+    idProducts.indexOf(Number(e.target.previousElementSibling.value)) === -1?setIdProducts([...idProducts,(Number(e.target.previousElementSibling.value))]):console.log("already exist !")
  }
+
+
+  return(
+    <Home>
+      <Header />
+      {window.location.pathname === "/" && <Accueil onclick={handleAcheter} />}
+      {window.location.pathname === "/panier" && <Panier count={idProducts} /> }
+    </Home>
+  )
+}
+export default App;
+
+const Panier =(props)=>{
+	let idPs=props.count
+	let [pro,setPro]=useState([]);
+	useEffect(()=>{
+		axios.get("https://fakestoreapi.com/products")
+			.then(res=>{
+				  let nlist = []
+				  idPs.map(idP=>{
+					nlist.push(res.data.filter(item=>item.id === idP))
+					})
+					setPro(nlist)
+			});
+	},[]);
+	return(
+		<div>
+			{pro.map(product=><Pro key={product[0].id} src={product[0].image} title={product[0].title} price={product[0].price}/>)}
+		</div>
+	)
+}
+
+const Pro=(props)=>{
+	let [count,setCount] = useState(1);
+	
+	return(
+		<div className="list-items">
+			<img src={props.src} alt="image" />
+			<h4>{props.title}</h4>
+			<span>{props.price * count}</span>
+			<div>
+				<button onClick={()=>setCount(count + 1)}>+</button>
+				  <p>{count}</p>
+				<button onClick={()=>setCount(count!==1?count - 1:1)}>-</button>
+			</div>
+		</div>
+	)
+}
+
+const Accueil =(props)=>{
+	 
  const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: "AIzaSyBW4GsXkL25g57SL9iKcwksjrTUXNMI9ro"
@@ -42,19 +91,16 @@ const App =()=>{
         setContent(response.data);
       });
   }, []);
-
-
-  return(
-    <Home>
-      <Header />
-      <Container className="mt-3 mb-3">
+	return (
+		<>
+		<Container className="mt-3 mb-3">
         <Slide />
       </Container>
       <Container>
         <Row>
         {content !== null ?content.map(item=><Col key={item.id} >
           <Product
-            onclick={handleAcheter}
+            onclick={props.onclick}
             inpVal={item.id}
             src={item.image} 
             text={item.description} 
@@ -77,10 +123,9 @@ const App =()=>{
         { /* Child components, such as markers, info windows, etc. */ }
       </GoogleMap>: "Loading..."}
   
-      </Container>
-    </Home>
-  )
+      </Container>	
+      </>
+	)
 }
-export default App;
 
 
