@@ -14,3 +14,23 @@
 .list-items span {
 	flex: 1;
 }
+.list-items button {
+	background: #999;
+	border: 1px solid #eee;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.list-items div {
+	display: flex;
+}
+.list-items button:nth-child(6){
+	border-radius: 5px;
+	width: 100px;
+	height: 20px;
+	background: #ff1400;
+	color: #fff;
+}

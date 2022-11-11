@@ -1,0 +1,19 @@
+.position-r{
+	position: relative;
+	width: 50px;
+}
+.position-a{
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.notify{
+	display: inline-block;
+	text-align: center;
+	font-size: .8em;
+	width: 15px;
+	height: 15px;
+	color: #fff;
+	background: #c13c00;
+	border-radius: 50%;
+}

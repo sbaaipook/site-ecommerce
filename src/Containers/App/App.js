@@ -12,7 +12,6 @@ import Col from 'react-bootstrap/Col';
 import axios from "axios";
 import useLocalStorage from "../../Hooks/useLocalStorage"
 
-
 const containerStyle = {
   width: '600px',
   height: '400px'
@@ -27,13 +26,19 @@ const App =()=>{
  const handleAcheter=(e)=>{
     idProducts.indexOf(Number(e.target.previousElementSibling.value)) === -1?setIdProducts([...idProducts,(Number(e.target.previousElementSibling.value))]):console.log("already exist !")
  }
+ 
+ const handleDel=(event)=>{
+ 	setIdProducts(idProducts.filter(idp=>idp !== Number(event.target.previousElementSibling.value)))
+ 	window.location.pathname="/panier"
+ 	event.preventDefault()
+ }
 
 
   return(
     <Home>
-      <Header />
+      <Header count={idProducts.length} />
       {window.location.pathname === "/" && <Accueil onclick={handleAcheter} />}
-      {window.location.pathname === "/panier" && <Panier count={idProducts} /> }
+      {window.location.pathname === "/panier" && <Panier count={idProducts} onclick={handleDel} /> }
     </Home>
   )
 }
@@ -54,7 +59,14 @@ const Panier =(props)=>{
 	},[]);
 	return(
 		<div>
-			{pro.map(product=><Pro key={product[0].id} src={product[0].image} title={product[0].title} price={product[0].price}/>)}
+			{pro.map(product=><Pro
+				key={product[0].id}
+				id={product[0].id}
+				src={product[0].image}
+				title={product[0].title}
+				price={product[0].price}
+				onclick={props.onclick}
+			/>)}
 		</div>
 	)
 }
@@ -72,6 +84,8 @@ const Pro=(props)=>{
 				  <p>{count}</p>
 				<button onClick={()=>setCount(count!==1?count - 1:1)}>-</button>
 			</div>
+			<input type="hidden" value={props.id}/>
+			<button onClick={props.onclick}>del</button>
 		</div>
 	)
 }
