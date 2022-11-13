@@ -16,7 +16,7 @@ const Header =(props)=>{
             <Nav.Link href="/">Acceil</Nav.Link>
             <Nav.Link href="/product">Product</Nav.Link>
             <Nav.Link href="/contact">Contact</Nav.Link>
-            <Nav.Link href="/panier" className="position-r"><MdOutlineLocalGroceryStore/><span className="position-a notify">{props.count}</span></Nav.Link>
+            <Nav.Link href={props.count===0?"/":"/panier"}className="position-r" ><MdOutlineLocalGroceryStore/><span className="position-a notify">{props.count}</span></Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

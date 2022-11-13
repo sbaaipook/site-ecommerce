@@ -15,15 +15,12 @@ const App =()=>{
  const handleDel=(event)=>{
  	setIdProducts(idProducts.filter(idp=>idp !== Number(event.target.previousElementSibling.value)))
  	window.location.pathname="/panier"
- 	event.preventDefault()
  }
-
-
   return(
     <Home>
       <Header count={idProducts.length} />
       {window.location.pathname === "/" && <Accueil onclick={handleAcheter} />}
-      {window.location.pathname === "/panier" && <Panier count={idProducts} onclick={handleDel} /> }
+      {window.location.pathname === "/panier" && <Panier count={idProducts} onclick={handleDel} />}
     </Home>
   )
 }

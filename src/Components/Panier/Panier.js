@@ -26,10 +26,11 @@ const Panier =(props)=>{
 		{
 			spanRefs.current.push(el)
 		}
-		if(spanRefs.current.length !== 0){
-			setTotal(spanRefs.current.reduce((acc,val)=>acc+Number(val.innerText),0).toFixed(2))
+		if (spanRefs.current.length !== 0){
+			setTotal(spanRefs.current.reduce((acc,val)=>acc+Number(val.innerHTML),0))
 		}
 	}
+	
 	return(
 		<div>
 			<div>
@@ -44,6 +45,8 @@ const Panier =(props)=>{
 				/>)}
 			</div>
 			<p>Total : {total}</p>
+			<a href="/signup">Commander</a>
+			<button onClick={props.onclickAnnuler}>Annuler</button>
 		</div>
 	)
 }
